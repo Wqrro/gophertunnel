@@ -1060,6 +1060,11 @@ func (conn *Conn) nextResourcePackDownload() error {
 func (conn *Conn) handleResourcePackDataInfo(pk *packet.ResourcePackDataInfo) error {
 	id := strings.Split(pk.UUID, "_")[0]
 
+	if id == "0fba4063-dba1-4281-9b89-ff9390653530" {
+		delete(conn.packQueue.downloadingPacks, id)
+		return nil
+	}
+
 	pack, ok := conn.packQueue.downloadingPacks[id]
 	if !ok {
 		// We either already downloaded the pack or we got sent an invalid UUID, that did not match any pack
